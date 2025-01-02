@@ -158,10 +158,12 @@ public class EdytorWidok extends VerticalLayout implements KeyNotifier {
         }
         final boolean p = k.getId() != null;
         if (p){
+            status.setVisible(true);
             naglowek.setText("Szczegóły klienta");
             var klientPom = repozytorium.findById(k.getId());//jeszcze get??????
             klient = new KlientDto(klientPom);
         }else{
+            status.setVisible(false);
             naglowek.setText("Utwórz klienta");
             klient = k;
         }
