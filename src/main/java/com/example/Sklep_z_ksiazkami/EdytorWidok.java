@@ -57,7 +57,7 @@ public class EdytorWidok extends VerticalLayout implements KeyNotifier {
     ComboBox<Rodzaj> comboBox = new ComboBox<>("Rodzaj Klienta");
     ComboBox<Status> status = new ComboBox<>("Status Klienta");
     TextField numerRachunku = new TextField("Numer Rachunku");
-    TextField nazwaKonta = new TextField("Nazwa Konta");
+    TextField nazwaKonta = new TextField("Nazwa Konta Bankowego");
     H2 naglowek = new H2();
     Div naglowekDiv = new Div(naglowek);
 
@@ -79,13 +79,21 @@ public class EdytorWidok extends VerticalLayout implements KeyNotifier {
         this.repozytorium = repozytorium;
         akcje.addClassName("akcje");
         //this.validator = validator;
+        nazwa.setEnabled(false);
+        nip.setEnabled(false);
+        plec.setEnabled(false);
+        dataUrodzenia.setEnabled(false);
+        numerRachunku.setEnabled(false);
+        nazwaKonta.setEnabled(false);
 
-        add(    naglowekDiv,
+
+        add(
+                naglowekDiv,
+                comboBox,
                 nazwa,
                 nip,
                 plec,
                 dataUrodzenia,
-                comboBox,
                 status,
                 numerRachunku,
                 nazwaKonta,
@@ -95,13 +103,34 @@ public class EdytorWidok extends VerticalLayout implements KeyNotifier {
 
         comboBox.setItems(Rodzaj.values());
         binder.bind(comboBox,KlientDto::getRodzajKlienta,KlientDto::setRodzajKlienta);
+        comboBox.addValueChangeListener(e ->{
+            nazwa.setEnabled(e.getValue()!=null);
+            nip.setEnabled(e.getValue()!=null);
+            plec.setEnabled(e.getValue()!=null);
+            dataUrodzenia.setEnabled(e.getValue()!=null);
+
+            numerRachunku.setEnabled(e.getValue()!=null);
+            nazwaKonta.setEnabled(e.getValue()!=null);
+
+            if (e.getValue()!=null){
+                nip.setVisible(e.getValue().toString()=="FIRMOWY");
+                plec.setVisible(e.getValue().toString()=="INDYWIDUALNY");
+                dataUrodzenia.setVisible(e.getValue().toString()=="INDYWIDUALNY");
+                if(e.getValue().toString()=="INDYWIDUALNY"){
+                    nazwa.setLabel("Imię i nazwisko");
+                }else{
+                    nazwa.setLabel("Nazwa");
+                }
+            }
+        });
+
         status.setItems(Status.values());
         binder.bind(status,KlientDto::getStatusKlienta,KlientDto::setStatusKlienta);
         List plcie = new ArrayList<>();
         plcie.add("K");
         plcie.add("M");
-        plcie.add("");
-       // plec.setEmptySelectionAllowed(false);
+
+        // plec.setEmptySelectionAllowed(false);
         plec.setItems(plcie);
         //plec.setNullSelectionAllowed(true);
         //plec.setItems("K", "M");
@@ -120,17 +149,17 @@ public class EdytorWidok extends VerticalLayout implements KeyNotifier {
     }
 
     void zapisz(){
-       // if (sprawdz(klient)) {
-            //logger.info("poprawny klient");
-            if (klient.getId() == null) {
-                repozytorium.createContent(klient.getNazwa(), klient.getNIP(), klient.getDataUrodzenia(), klient.getPlec(), klient.getRodzajKlienta(), Status.AKTYWNY, klient.getNumerRachunku(), klient.getNazwaKonta());
-                changeHandler.onChange();
-            } else {
-                repozytorium.updateContent(klient.getId(), klient.getNazwa(), klient.getNIP(), klient.getDataUrodzenia(), klient.getPlec(), klient.getRodzajKlienta(), klient.getStatusKlienta(), klient.getNumerRachunku(), klient.getNazwaKonta());
-                changeHandler.onChange();
-            }
-            setVisible(false);
-       // } else {
+        // if (sprawdz(klient)) {
+        //logger.info("poprawny klient");
+        if (klient.getId() == null) {
+            repozytorium.createContent(klient.getNazwa(), klient.getNIP(), klient.getDataUrodzenia(), klient.getPlec(), klient.getRodzajKlienta(), Status.AKTYWNY, klient.getNumerRachunku(), klient.getNazwaKonta());
+            changeHandler.onChange();
+        } else {
+            repozytorium.updateContent(klient.getId(), klient.getNazwa(), klient.getNIP(), klient.getDataUrodzenia(), klient.getPlec(), klient.getRodzajKlienta(), klient.getStatusKlienta(), klient.getNumerRachunku(), klient.getNazwaKonta());
+            changeHandler.onChange();
+        }
+        setVisible(false);
+        // } else {
         //    throw new RuntimeException("nasz blad");
         //}
     }
@@ -151,7 +180,7 @@ public class EdytorWidok extends VerticalLayout implements KeyNotifier {
     }
 
     public final void edytuj(KlientDto k){
-    logger.info("poprawny klient");
+        logger.info("poprawny klient");
         if (k==null){
             setVisible(false);
             return;

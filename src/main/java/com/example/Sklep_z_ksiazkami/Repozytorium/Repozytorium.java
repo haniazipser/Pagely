@@ -41,12 +41,12 @@ public class Repozytorium {
         }
     }
 
-    public Klient findByNazwaKonta(String nazwaKonta) {
-        String sql = "SELECT * FROM Klienci WHERE Nazwa_konta=?";
-        Object[] arg = {nazwaKonta};
+    public List<Klient>  findByNazwaKonta(String nazwaKonta) {
+        String sql = "SELECT * FROM Klienci WHERE  Nazwa like '"+nazwaKonta+"%'";
+        //Object[] arg = {nazwaKonta};
         try {
-            Klient klient = jdbcTemplate.queryForObject(sql, arg, mapper);
-            return klient;
+            List<Klient> klienci = jdbcTemplate.query(sql, mapper);
+            return klienci;
         } catch (EmptyResultDataAccessException e){
             return null;
         }

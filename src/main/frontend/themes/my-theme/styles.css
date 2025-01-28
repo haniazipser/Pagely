@@ -20,9 +20,10 @@ vaadin-grid::part(header-cell){
 
 }
 
-vaadin-grid::part(selected-row-cell){
-  background-color: hsla(0, 0%, 0%, 0.1)
+vaadin-grid::part(selected-row-cell) {
+  background-color: hsl(0, 0%, 0%, 0.1);
 }
+
 
 vaadin-horizontal-layout.akcje{
   margin: 20px 0 0;
@@ -42,6 +43,22 @@ vaadin-date-picker::part(input-field) {
 vaadin-date-picker::part(label){
   --vaadin-input-field-focused-label-color:black;
 }
+vaadin-password-field::part(input-field) {
+  box-shadow: inset 0 0 0 1px var(--lumo-contrast-30pct);
+  background-color: var(--lumo-base-color);
+}
+
+vaadin-password-field::part(label){
+  --vaadin-input-field-focused-label-color:black;
+}
+
+vaadin-password-field{
+  --lumo-required-field-indicator-color:#ebe0ad;
+}
+vaadin-text-field{
+  --lumo-required-field-indicator-color:#ebe0ad;
+}
+
 vaadin-combo-box::part(input-field) {
   box-shadow: inset 0 0 0 1px var(--lumo-contrast-30pct);
   background-color: var(--lumo-base-color);
@@ -53,7 +70,8 @@ vaadin-combo-box::part(label){
 h1{
   font-weight: 1000;
   letter-spacing: 10px;
-  font-size: 3rem;
+  font-size: 3.5rem;
+  margin: auto 0;
 }
 
 h2{

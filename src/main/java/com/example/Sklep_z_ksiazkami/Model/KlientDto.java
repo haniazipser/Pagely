@@ -22,8 +22,7 @@ public class KlientDto {
     private Status statusKlienta;
     @Pattern(regexp = "(^PL[0-9]{26}$)|(^[0-9]{26}$)|(^$)", message="Błędny numer rachunku")
     private String numerRachunku;
-    @Size(min=1,max=20)
-    @NotBlank
+
     private String nazwaKonta;
 
     public KlientDto(){
