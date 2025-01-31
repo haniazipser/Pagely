@@ -85,6 +85,7 @@ public class EdytorWidok extends VerticalLayout implements KeyNotifier {
         dataUrodzenia.setEnabled(false);
         numerRachunku.setEnabled(false);
         nazwaKonta.setEnabled(false);
+        comboBox.addClassName("rodzaj");
 
 
         add(
@@ -196,6 +197,7 @@ public class EdytorWidok extends VerticalLayout implements KeyNotifier {
             naglowek.setText("Utwórz klienta");
             klient = k;
         }
+        comboBox.setEnabled(!p);
         usun.setVisible(p);
         binder.setBean(klient);
         setVisible(true);

@@ -21,6 +21,7 @@ vaadin-grid::part(header-cell){
 }
 
 vaadin-grid::part(selected-row-cell) {
+
   background-color: hsl(0, 0%, 0%, 0.1);
 }
 
@@ -65,7 +66,16 @@ vaadin-combo-box::part(input-field) {
 }
 vaadin-combo-box::part(label){
   --vaadin-input-field-focused-label-color:black;
+
 }
+
+.rodzaj[disabled]::part(input-field),
+.rodzaj[disabled]::part(label){
+    opacity:1;
+    --lumo-disabled-text-color: black;
+
+}
+
 
 h1{
   font-weight: 1000;
