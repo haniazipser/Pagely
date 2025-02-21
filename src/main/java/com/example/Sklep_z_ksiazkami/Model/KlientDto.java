@@ -1,5 +1,5 @@
 package com.example.Sklep_z_ksiazkami.Model;
-
+/*
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.pl.NIP;
@@ -120,3 +120,4 @@ public class KlientDto {
         return new Klient(id,nazwa,NIP,dataUrodzenia,plec,rodzajKlienta,statusKlienta,numerRachunku,nazwaKonta);
     }
 }
+*/

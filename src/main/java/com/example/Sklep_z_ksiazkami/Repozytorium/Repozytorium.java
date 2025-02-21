@@ -1,17 +1,13 @@
 package com.example.Sklep_z_ksiazkami.Repozytorium;
-
+/*
 import com.example.Sklep_z_ksiazkami.Model.Klient;
 import com.example.Sklep_z_ksiazkami.Model.Mapper;
-import com.example.Sklep_z_ksiazkami.Model.Rodzaj;
 import com.example.Sklep_z_ksiazkami.Model.Status;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -51,11 +47,7 @@ public class Repozytorium {
             return null;
         }
     }
-    /*
-     Integer id,
-        String NIP, LocalDate dataUrodzenia, String plec, Rodzaj rodzajKlienta, Status statusKlienta,
-        String numerRachunku,String nazwaKonta
-     */
+
     public void createContent(String nazwa, String NIP, LocalDate dataUrodzenia, String plec, Rodzaj rodzajKlienta, Status statusKlienta,
                               String numerRachunku, String nazwaKonta) {
         String sql = "INSERT INTO Klienci (Nazwa, NIP, Data_urodzenia, Plec, Rodzaj_klienta, Status, Numer_rachunku, Nazwa_konta) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
@@ -78,4 +70,4 @@ public class Repozytorium {
             throw new ObjectNotExistException(id, "Klient") ;
         }
     }
-}
+}*/

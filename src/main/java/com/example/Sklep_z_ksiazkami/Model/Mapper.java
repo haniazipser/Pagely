@@ -1,5 +1,5 @@
 package com.example.Sklep_z_ksiazkami.Model;
-
+/*
 import org.springframework.stereotype.Component;
 
 import org.springframework.jdbc.core.RowMapper;
@@ -29,3 +29,4 @@ public class Mapper implements RowMapper<Klient> {
     }
 }
 
+*/

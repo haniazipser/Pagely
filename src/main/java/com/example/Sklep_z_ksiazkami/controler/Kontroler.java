@@ -1,5 +1,5 @@
-package com.example.Sklep_z_ksiazkami.Kontroler;
-
+package com.example.Sklep_z_ksiazkami.controler;
+/*
 import com.example.Sklep_z_ksiazkami.Model.Klient;
 import com.example.Sklep_z_ksiazkami.Repozytorium.Repozytorium;
 import jakarta.validation.Valid;
@@ -58,3 +58,4 @@ public class Kontroler {
         repozytorium.deleteContent(id);
     }
 }
+*/

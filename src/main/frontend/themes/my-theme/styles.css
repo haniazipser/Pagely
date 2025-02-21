@@ -57,7 +57,7 @@ vaadin-password-field{
   --lumo-required-field-indicator-color:#ebe0ad;
 }
 vaadin-text-field{
-  --lumo-required-field-indicator-color:#ebe0ad;
+  --lumo-required-field-indicator-color:#a8bbd6;
 }
 
 vaadin-combo-box::part(input-field) {

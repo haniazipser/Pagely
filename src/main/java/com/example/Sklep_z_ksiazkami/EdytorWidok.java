@@ -1,39 +1,6 @@
 package com.example.Sklep_z_ksiazkami;
 
-import com.example.Sklep_z_ksiazkami.Kontroler.Kontroler;
-import com.example.Sklep_z_ksiazkami.Model.Klient;
-import com.example.Sklep_z_ksiazkami.Model.KlientDto;
-import com.example.Sklep_z_ksiazkami.Model.Rodzaj;
-import com.example.Sklep_z_ksiazkami.Model.Status;
-import com.example.Sklep_z_ksiazkami.Repozytorium.Repozytorium;
-import com.vaadin.flow.component.Key;
-import com.vaadin.flow.component.KeyNotifier;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.datepicker.DatePicker;
-import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.binder.BeanValidationBinder;
-import com.vaadin.flow.data.binder.Binder;
-import com.vaadin.flow.router.Route;
-import com.vaadin.flow.spring.annotation.SpringComponent;
-import com.vaadin.flow.spring.annotation.UIScope;
-import jakarta.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.SmartValidator;
-
-import java.util.ArrayList;
-import java.util.List;
-
+/*
 
 //@Route("dodaj")
 @SpringComponent
@@ -153,7 +120,7 @@ public class EdytorWidok extends VerticalLayout implements KeyNotifier {
         // if (sprawdz(klient)) {
         //logger.info("poprawny klient");
         if (klient.getId() == null) {
-            repozytorium.createContent(klient.getNazwa(), klient.getNIP(), klient.getDataUrodzenia(), klient.getPlec(), klient.getRodzajKlienta(), Status.AKTYWNY, klient.getNumerRachunku(), klient.getNazwaKonta());
+            repozytorium.createContent(klient.getNazwa(), klient.getNIP(), klient.getDataUrodzenia(), klient.getPlec(), klient.getRodzajKlienta(), Status.ACTIVE, klient.getNumerRachunku(), klient.getNazwaKonta());
             changeHandler.onChange();
         } else {
             repozytorium.updateContent(klient.getId(), klient.getNazwa(), klient.getNIP(), klient.getDataUrodzenia(), klient.getPlec(), klient.getRodzajKlienta(), klient.getStatusKlienta(), klient.getNumerRachunku(), klient.getNazwaKonta());
@@ -165,10 +132,6 @@ public class EdytorWidok extends VerticalLayout implements KeyNotifier {
         //}
     }
 
-    /*boolean sprawdz (@Valid KlientDto k){
-        logger.info("w metodzie sprawdz");
-        return true;
-    }*/
 
     void usun(){
         repozytorium.deleteContent(klient.getId());
@@ -202,4 +165,4 @@ public class EdytorWidok extends VerticalLayout implements KeyNotifier {
         binder.setBean(klient);
         setVisible(true);
     }
-}
+}*/

@@ -1,7 +1,6 @@
 package com.example.Sklep_z_ksiazkami;
 
-import com.example.Sklep_z_ksiazkami.Model.KlientDto;
-import com.example.Sklep_z_ksiazkami.Repozytorium.Repozytorium;
+
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
@@ -19,12 +18,7 @@ import com.vaadin.flow.spring.annotation.UIScope;
 
 import java.util.List;
 
-
 /*
-"Id", "Nazwa", "NIP", "Data Urodzenia", "Plec", "Rodzaj Klienta", "Status Klienta","Numer Rachunku", "Nazwa Konta"
- klient.nazwa(),klient.NIP(), klient.dataUrodzenia(), klient.plec(),
-                klient.rodzajKlienta(), klient.statusKlienta(), klient.numerRachunku(), klient.nazwaKonta()
- */
 @Route("")
 @SpringComponent
 @UIScope
@@ -107,3 +101,4 @@ public class WidokKlienci extends SplitLayout {
     }
 
 }
+*/

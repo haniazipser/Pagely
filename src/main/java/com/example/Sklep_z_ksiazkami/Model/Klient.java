@@ -1,5 +1,5 @@
 package com.example.Sklep_z_ksiazkami.Model;
-
+/*
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
@@ -32,3 +32,4 @@ public record Klient(
         this(null,null,null,null,null,null,null,null,null);
     }
 }
+*/
