@@ -1,18 +1,23 @@
 package com.example.Sklep_z_ksiazkami.serwisy;
 
 import com.example.Sklep_z_ksiazkami.Model.Status;
+import com.example.Sklep_z_ksiazkami.Model.dto.OfferDto;
 import com.example.Sklep_z_ksiazkami.Model.entity.Client;
 import com.example.Sklep_z_ksiazkami.Model.entity.Offer;
 import com.example.Sklep_z_ksiazkami.Model.entity.PriceProposal;
+import com.example.Sklep_z_ksiazkami.Model.entity.ShippingMethod;
 import com.example.Sklep_z_ksiazkami.Repozytorium.ClientRepo;
 import com.example.Sklep_z_ksiazkami.Repozytorium.OfferRepo;
 import com.example.Sklep_z_ksiazkami.Repozytorium.PriceProposalRepo;
+import com.example.Sklep_z_ksiazkami.Repozytorium.ShippingMethodRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -21,12 +26,14 @@ public class OfferAppService {
     Logger logger = LoggerFactory.getLogger(OfferAppService.class);
     private final OfferRepo repo;
     private final ClientRepo clientRepo;
+    private final ShippingMethodRepo shippingMethodRepo;
 
     private final PriceProposalRepo priceProposalRepo;
 
-    public OfferAppService(OfferRepo repo, ClientRepo clientRepo, PriceProposalRepo priceProposalRepo) {
+    public OfferAppService(OfferRepo repo, ClientRepo clientRepo, ShippingMethodRepo shippingMethodRepo, PriceProposalRepo priceProposalRepo) {
         this.repo = repo;
         this.clientRepo = clientRepo;
+        this.shippingMethodRepo = shippingMethodRepo;
         this.priceProposalRepo = priceProposalRepo;
     }
 
@@ -51,9 +58,15 @@ public class OfferAppService {
         return offers;
     }
 
-    public List<Offer> getAllOffers() {
-        logger.info("Repo instance: {}", repo);
-        return repo.findAll();
+    public List<OfferDto> getOffersWithShipping() {
+        List<Offer> offers = repo.findByStatus(Status.ACTIVE);
+        List<OfferDto> offerDtos = new ArrayList<>();
+        for (int i = 0; i < offers.size(); i++){
+            Integer id = offers.get(i).getClient().getId();
+            List<ShippingMethod> shippingMethods = shippingMethodRepo.findByIdClientId(id);
+            offerDtos.add(new OfferDto(offers.get(i), shippingMethods));
+        }
+        return offerDtos;
     }
 
     public Offer getOfferById(int id) {
@@ -69,4 +82,15 @@ public class OfferAppService {
         priceProposalRepo.save(proposal);
     }
 
+    public List<OfferDto> getOffers() {
+        return repo.findAll().stream().map(o -> new OfferDto(o)).collect(Collectors.toList());
+    }
+
+    public OfferDto getOfferByIdWithShipping(Integer id) {
+        Offer offer = repo.getById(id);
+        Integer clientId = offer.getClient().getId();
+        List<ShippingMethod> shippingMethods = shippingMethodRepo.findByIdClientId(id);
+        OfferDto offerDto = new OfferDto(offer, shippingMethods);
+        return offerDto;
+    }
 }

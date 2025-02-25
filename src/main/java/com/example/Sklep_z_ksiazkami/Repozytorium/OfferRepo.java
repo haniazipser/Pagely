@@ -1,5 +1,7 @@
 package com.example.Sklep_z_ksiazkami.Repozytorium;
 
+import com.example.Sklep_z_ksiazkami.Model.Status;
+import com.example.Sklep_z_ksiazkami.Model.dto.OfferDto;
 import com.example.Sklep_z_ksiazkami.Model.entity.Client;
 import com.example.Sklep_z_ksiazkami.Model.entity.Offer;
 import com.example.Sklep_z_ksiazkami.Model.entity.User;
@@ -18,5 +20,5 @@ public interface  OfferRepo extends JpaRepository<Offer, Integer> {
    // @Query("SELECT O FROM Offer O WHERE O.client.id = ?1")
     List<Offer> findByClientId(int clientId);
 
-
+    List<Offer> findByStatus(Status status);
 }

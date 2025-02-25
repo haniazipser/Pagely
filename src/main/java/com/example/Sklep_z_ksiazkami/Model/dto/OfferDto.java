@@ -2,26 +2,56 @@ package com.example.Sklep_z_ksiazkami.Model.dto;
 
 import com.example.Sklep_z_ksiazkami.Model.Status;
 import com.example.Sklep_z_ksiazkami.Model.entity.Offer;
+import com.example.Sklep_z_ksiazkami.Model.entity.ShippingMethod;
+import jakarta.persistence.Column;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class OfferDto {
     private int id;
     private String title;
+    private String author;
+    String language;
+    Integer published;
     private float price;
-    private Status status;
     private LocalDate date;
-    private String clientName;
-    private String categoryName;
+    private String state;
+    private CategoryDto category;
+
+    Set<String> keyWords;
+
+    List<ShippingMethodDto> shippingMethods;
+
+
 
     public OfferDto(Offer offer) {
         this.id = offer.getId();
         this.title = offer.getTitle();
+        this.author = offer.getAuthor();
         this.price = offer.getPrice();
-        this.status = offer.getStatus();
         this.date = offer.getDate();
-        this.clientName = offer.getClient().getName();
-        this.categoryName = offer.getCategory().getCategoryName();
+        this.state = offer.getState();
+        this.keyWords = offer.getKeyWords();
+        this.category= new CategoryDto(offer.getCategory());
+        this.language = offer.getLanguage();
+        this.published = offer.getPublished();
+    }
+
+    public OfferDto(Offer offer, List<ShippingMethod> shippingMethod) {
+        this.id = offer.getId();
+        this.title = offer.getTitle();
+        this.author = offer.getAuthor();
+        this.price = offer.getPrice();
+        this.date = offer.getDate();
+        this.state = offer.getState();
+        this.keyWords = offer.getKeyWords();
+        this.category= new CategoryDto(offer.getCategory());
+        this.language = offer.getLanguage();
+        this.published = offer.getPublished();
+        this.shippingMethods =shippingMethod.stream().map(s -> new ShippingMethodDto(s)).collect(Collectors.toList());
     }
 
     public int getId() {
@@ -48,14 +78,6 @@ public class OfferDto {
         this.price = price;
     }
 
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
     public LocalDate getDate() {
         return date;
     }
@@ -64,19 +86,61 @@ public class OfferDto {
         this.date = date;
     }
 
-    public String getClientName() {
-        return clientName;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public String getState() {
+        return state;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public Set<String> getKeyWords() {
+        return keyWords;
+    }
+
+    public void setKeyWords(Set<String> keyWords) {
+        this.keyWords = keyWords;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public Integer getPublished() {
+        return published;
+    }
+
+    public void setPublished(Integer published) {
+        this.published = published;
+    }
+
+
+
+    public List<ShippingMethodDto> getShippingMethods() {
+        return shippingMethods;
+    }
+
+    public void setShippingMethods(List<ShippingMethodDto> shippingMethods) {
+        this.shippingMethods = shippingMethods;
+    }
+
+    public CategoryDto getCategory() {
+        return category;
+    }
+
+    public void setCategory(CategoryDto category) {
+        this.category = category;
     }
 }

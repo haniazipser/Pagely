@@ -1,9 +1,6 @@
 package com.example.Sklep_z_ksiazkami.Model.dto;
 
-import com.example.Sklep_z_ksiazkami.Model.entity.Author;
-import com.example.Sklep_z_ksiazkami.Model.entity.Book;
-import com.example.Sklep_z_ksiazkami.Model.entity.Category;
-import com.example.Sklep_z_ksiazkami.Model.entity.ISBN;
+import com.example.Sklep_z_ksiazkami.Model.entity.*;
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 
@@ -14,22 +11,31 @@ import java.util.stream.Collectors;
 public class BookDto {
     int id;
     String title;
-
     String description;
-    CategoryDto category; //czy dto??
+   CategoryDto category;
     int published;
     Set<AuthorDto> authors;
-    Set <ISBNDto> ISBN;
+    Set <String> ISBN;
+
+    Double rating;
+    Set <BookReviewDto> reviews;
 
 
     public BookDto (Book book){
         this.id = book.getId();
         this.title = book.getTitle();
         this.description = book.getDescription();
-        this.category = new CategoryDto(book.getCategory());
+        this.category = new CategoryDto( book.getCategory());
         this.published = book.getPublished();
         this.authors = book.getAuthors().stream().map(a -> new AuthorDto(a)).collect(Collectors.toSet());
-        this.ISBN = book.getISBN().stream().map(i -> new ISBNDto(i)).collect(Collectors.toSet());
+        this.ISBN = book.getISBN().stream().map(i -> i.getISBN()).collect(Collectors.toSet());
+        this.reviews = book.getReviews().stream().map(r -> new BookReviewDto(r)).collect(Collectors.toSet());
+        Set<BookReview> reviews= book.getReviews();
+        Double sum = 0.0;
+        for (BookReview r : reviews){
+            sum += r.getStars();
+        }
+        this.rating = sum / reviews.size();
     }
 
     /*public Book dtoToBook (){
@@ -64,7 +70,7 @@ public class BookDto {
         return category;
     }
 
-    public void setCategoryId(CategoryDto category) {
+    public void setCategory(CategoryDto category) {
         this.category = category;
     }
 
@@ -84,11 +90,29 @@ public class BookDto {
         this.authors = authors;
     }
 
-    public Set<ISBNDto> getISBN() {
+    public Set<String> getISBN() {
         return ISBN;
     }
 
-    public void setISBN(Set<ISBNDto> ISBN) {
+    public void setISBN(Set<String> ISBN) {
         this.ISBN = ISBN;
+    }
+
+
+    public Set<BookReviewDto> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Set<BookReviewDto> reviews) {
+        this.reviews = reviews;
+    }
+
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
     }
 }

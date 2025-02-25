@@ -3,6 +3,8 @@ package com.example.Sklep_z_ksiazkami.Model.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 //ISBN varchar(255) NOT NULL, Id_ksiazki int NOT NULL,
 @Entity
 @Table(name = "Nr_ISBN_ksiazek")
@@ -13,6 +15,9 @@ public class ISBN {
     @JoinColumn(name="Id_ksiazki")
     @JsonBackReference
     Book book;
+
+    @OneToMany(mappedBy = "isbn")
+    Set<Offer> offers;
 
     public ISBN(){};
 

@@ -1,6 +1,7 @@
 package com.example.Sklep_z_ksiazkami.Model.entity;
 
 import com.example.Sklep_z_ksiazkami.Model.OrderStatus;
+import com.example.Sklep_z_ksiazkami.Model.dto.OrderDetailsDto;
 import com.example.Sklep_z_ksiazkami.Repozytorium.OrderException;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -50,7 +51,6 @@ public class Order {
     String shippingMethod;
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    @JsonIgnore
     Set<OrderDetails> items;
 
 
@@ -80,10 +80,17 @@ public class Order {
 
     public Order(){};
 
-    public void addOffer(Offer offer, Float price){
+    public OrderDetailsDto addOffer(Offer offer, Float price){
         checkIfDraft();
-        items.add(new OrderDetails(this, offer, price));
+        for (OrderDetails o : items){
+            if (o.getOffer().equals(offer)){
+                throw new OrderException("This offer is already in your cart");
+            }
+        }
+        OrderDetails o = new OrderDetails(this, offer, price);
+        items.add(o);
         orderTotal += price;
+        return new OrderDetailsDto(o);
     }
 
     public void deleteOffer(OrderDetails o){
@@ -99,6 +106,20 @@ public class Order {
             shippingMethod = method.getId().getShippingMethod();
             shippingCost = method.getPrice();
             orderTotal +=shippingCost;
+    }
+
+    public void changeShippingMethod(ShippingMethod method) {
+        Float old = shippingCost;
+        shippingMethod = method.getId().getShippingMethod();
+        shippingCost = method.getPrice();
+        orderTotal -= old;
+        orderTotal +=shippingCost;
+    }
+
+    public void removeShippingMethod() {
+        shippingMethod = null;
+        shippingCost = 0f;
+        orderTotal = 0f;
     }
 
 
@@ -203,6 +224,7 @@ public class Order {
     public void setItems(Set<OrderDetails> items) {
         this.items = items;
     }
+
 
 
 }

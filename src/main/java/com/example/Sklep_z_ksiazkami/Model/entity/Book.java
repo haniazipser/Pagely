@@ -23,6 +23,7 @@ public class Book {
 
     @ManyToOne
     @JoinColumn(name = "Id_kategorii")
+    @JsonManagedReference
     Category category;
     @Column(name="Rok_wydania")
     int published;
@@ -32,8 +33,13 @@ public class Book {
     @OneToMany(mappedBy = "book")
     @JsonManagedReference
     Set <ISBN> ISBN;
+
+    @OneToMany(mappedBy = "book")
+    @JsonManagedReference
+    Set <BookReview> reviews;
+
     public Book(){};
-    public Book(int id, String title, String description, Category category, int published, Set<Author> authors, Set<ISBN> ISBN) {
+    public Book(int id, String title, String description, Category category, int published, Set<Author> authors, Set<ISBN> ISBN, Set<BookReview> reviews) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -41,6 +47,7 @@ public class Book {
         this.published = published;
         this.authors = authors;
         this.ISBN = ISBN;
+        this.reviews = reviews;
     }
 
     public int getId() {
@@ -98,4 +105,11 @@ public class Book {
         this.ISBN = ISBN;
     }
 
+    public Set<BookReview> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Set<BookReview> reviews) {
+        this.reviews = reviews;
+    }
 }

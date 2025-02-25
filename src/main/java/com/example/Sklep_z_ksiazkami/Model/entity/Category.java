@@ -1,6 +1,8 @@
 package com.example.Sklep_z_ksiazkami.Model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -19,11 +21,11 @@ public class Category {
 
     @ManyToOne()
     @JoinColumn(name="Kategoria_Nadrzedna")
-    @JsonIgnore
+    @JsonBackReference
     Category parentCategory;
 
     @OneToMany(mappedBy="parentCategory")
-    @JsonIgnore
+    @JsonManagedReference
     Set<Category> childCategories;
 
     public Category(){};

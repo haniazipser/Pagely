@@ -1,6 +1,9 @@
 package com.example.Sklep_z_ksiazkami.serwisy;
 
+import com.example.Sklep_z_ksiazkami.Model.OrderStatus;
 import com.example.Sklep_z_ksiazkami.Model.ShippingMethodId;
+import com.example.Sklep_z_ksiazkami.Model.dto.OfferDto;
+import com.example.Sklep_z_ksiazkami.Model.dto.OrderDetailsDto;
 import com.example.Sklep_z_ksiazkami.Model.dto.OrderDto;
 import com.example.Sklep_z_ksiazkami.Model.entity.*;
 import com.example.Sklep_z_ksiazkami.Repozytorium.*;
@@ -13,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -32,37 +36,39 @@ public class PurchaseAppService {
         this.priceProposalRepo = priceProposalRepo;
     }
 
-    public void addOfferToOrder(Integer offerId, Integer orderId){
-        Order order =orderRepo.getById(orderId);
-        Offer offer = offerRepo.getById(offerId);
-        Optional<OrderDetails> temp = order.getItems().stream().findFirst();
-        if (temp.isPresent() && temp.get().getOffer().getClient() != offer.getClient()){
-            throw new OrderException("You can only buy offers from the same seller");
+    public OrderDto addOffer(Integer offerId, Integer buyerId){
+        Order order =orderRepo.findByBuyerIdAndStatus(buyerId, OrderStatus.DRAFT);
+        if (order == null){
+            Integer orderId = createNewOrder(buyerId);
+            order = orderRepo.getById(orderId);
         }
+            Offer offer = offerRepo.getById(offerId);
+            Optional<OrderDetails> temp = order.getItems().stream().findFirst();
+            if (temp.isPresent() && temp.get().getOffer().getClient() != offer.getClient()) {
+                throw new OrderException("You can only buy offers from the same seller");
+            }
 
-        Integer buyer = order.getBuyer().getId();
-        List<PriceProposal> proposals = priceProposalRepo.findByClientIdAndOfferId(buyer,offerId);
-        if (proposals.isEmpty()){
-            order.addOffer(offer, offer.getPrice());
-        }else{
-            Float negotiatedPrice = proposals.get(0).getPrice();
-            order.addOffer(offer, negotiatedPrice);
-        }
-        orderRepo.save(order);
+            Integer buyer = order.getBuyer().getId();
+            List<PriceProposal> proposals = priceProposalRepo.findByClientIdAndOfferId(buyer, offerId);
+            if (proposals.isEmpty()) {
+                order.addOffer(offer, offer.getPrice());
+            } else {
+                Float negotiatedPrice = proposals.get(0).getPrice();
+                order.addOffer(offer, negotiatedPrice);
+            }
+            orderRepo.save(order);
+            return new OrderDto(order);
     }
 
-    public void deleteOfferFromOrder(Integer offerId, Integer orderId){
-        logger.info("usun {} z {}", offerId, orderId);
-        Order order =orderRepo.getById(orderId);
-        logger.info("order{}",order);
+    public OrderDto deleteOfferFromOrder(Integer itemId, Integer buyerId){
+        Order order = orderRepo.findByBuyerIdAndStatus(buyerId, OrderStatus.DRAFT);
         boolean found = false;
         Set<OrderDetails> items = order.getItems();
         if (items == null || items.isEmpty()) {
             throw new OrderException("Order has no items");
         }
         for (OrderDetails o : items){
-            logger.info("item o id{}", o.getOffer().getId());
-            if (o.getOffer().getId() == offerId){
+            if (o.getId() == itemId){
                 found = true;
                 order.deleteOffer(o);
                 break;
@@ -71,23 +77,32 @@ public class PurchaseAppService {
         if (!found){
             throw new OrderException("This item is not in your order");
         }
+        if(order.getItems().isEmpty()){
+            order.removeShippingMethod();
+        }
 
         orderRepo.save(order);
+        return new OrderDto(order);
     }
 
 
-    public void addShippingMethodToOrder(ShippingMethodId id, Integer orderId){
+    public void addShippingMethodToOrder(ShippingMethodId id, Integer clientId){
         ShippingMethod method = shippingMethodRepo.getById(id);
-        Order order = orderRepo.getById(orderId);
-        Optional<OrderDetails> temp = order.getItems().stream().findFirst();
+        Order order = orderRepo.findByBuyerIdAndStatus(clientId, OrderStatus.DRAFT);
+        /*Optional<OrderDetails> temp = order.getItems().stream().findFirst();
         if (temp.isPresent() && temp.get().getOffer().getClient().getId() != method.getId().getClientId()){
             throw new OrderException("This seller doesn't support this shipping method");
+        }*/
+        if (order.getShippingMethod()==null) {
+            order.addShippingMethod(method);
+        } else {
+            order.changeShippingMethod(method);
         }
-        order.addShippingMethod(method);
     }
 
-    public List<ShippingMethod> showShippingMethods(Integer orderId){
-        Order order = orderRepo.getById(orderId);
+    public List<ShippingMethod> showShippingMethods(Integer clientId){
+
+        Order order = orderRepo.findByBuyerIdAndStatus(clientId, OrderStatus.DRAFT);
         Optional<OrderDetails> temp = order.getItems().stream().findFirst();
         if (temp.isPresent()){
             Integer sellerId = temp.get().getOffer().getClient().getId();
@@ -118,8 +133,13 @@ public class PurchaseAppService {
 
     public OrderDto showOrder(Integer id) {
         logger.info("id:{}", id);
-        Order order = orderRepo.getById(id);
+        Order order = orderRepo.findByBuyerIdAndStatus(id, OrderStatus.DRAFT);
         logger.info("{}", order);
         return new OrderDto(order);
+    }
+
+    public List <OfferDto> offersFromTheSameSeller(Integer clientId) {
+       return offerRepo.findByClientId(clientId).stream().map(o -> new OfferDto(o)).collect(Collectors.toList());
+
     }
 }

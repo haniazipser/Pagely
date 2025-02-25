@@ -1,6 +1,8 @@
 package com.example.Sklep_z_ksiazkami.controler.user;
 
 
+import com.example.Sklep_z_ksiazkami.Model.dto.BookDto;
+import com.example.Sklep_z_ksiazkami.Model.dto.OfferDto;
 import com.example.Sklep_z_ksiazkami.Model.dto.OrderDto;
 import com.example.Sklep_z_ksiazkami.Model.entity.Book;
 import com.example.Sklep_z_ksiazkami.Model.entity.Client;
@@ -17,6 +19,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/client")
 public class ClientController {
 
@@ -35,15 +38,7 @@ public class ClientController {
         this.orderAppService = orderAppService;
     }
 
-    @GetMapping("/books/{id}")
-    public Book getBookById(@PathVariable int id){
-        return bookAppService.getBookById(id);
-    }
 
-    @GetMapping("/books")
-    public List<Book> getBookById(){
-        return bookAppService.getBooks();
-    }
 
     @GetMapping("/offers/{id}")
     public List<Offer> getClientsOffers(@PathVariable int id){

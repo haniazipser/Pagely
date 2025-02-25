@@ -37,8 +37,8 @@ public class AdminController {
         this.clientAppService = clientAppService;
     }
     @GetMapping("/offers")
-    public List<Offer> getOffers(){
-        return offerAppService.getAllOffers();
+    public List<OfferDto> getOffers(){
+        return offerAppService.getOffersWithShipping();
     }
 
     @GetMapping("/offers/{id}")
