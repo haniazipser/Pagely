@@ -7,10 +7,7 @@ import com.example.Sklep_z_ksiazkami.Model.dto.OfferDto;
 import com.example.Sklep_z_ksiazkami.Model.entity.Category;
 import com.example.Sklep_z_ksiazkami.serwisy.BookAppService;
 import com.example.Sklep_z_ksiazkami.serwisy.OfferAppService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +15,7 @@ import java.util.Map;
 import java.util.Objects;
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
+@RequestMapping("/public")
 public class HomeController {
     private final BookAppService bookAppService;
     private final OfferAppService offerAppService;
@@ -27,7 +25,7 @@ public class HomeController {
         this.offerAppService = offerAppService;
     }
 
-    @GetMapping("/")
+    @GetMapping()
     public List<Object> getHomeContent(){
         List<Object> content = new ArrayList<>();
         content.add(bookAppService.getBestsellers());
@@ -43,14 +41,20 @@ public class HomeController {
         return bookAppService.getBookById(id);
     }
 
+
     @GetMapping("/books")
     public List<BookDto> getBooks(){
         return bookAppService.getBooks();
     }
 
     @GetMapping("/offers/{id}")
-    public OfferDto getOfferNyId(@PathVariable Integer id){
+    public OfferDto getOfferById(@PathVariable Integer id){
         return offerAppService.getOfferByIdWithShipping(id);
+    }
+
+    @GetMapping("/offers/isbn/{isbn}")
+    public List<OfferDto> getOfferByIsbn(@PathVariable String isbn){
+        return offerAppService.getOffersByIsbn(isbn);
     }
     @GetMapping("/offers")
     public List<OfferDto> getOffers(){

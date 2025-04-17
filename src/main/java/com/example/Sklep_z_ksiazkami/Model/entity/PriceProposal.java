@@ -31,7 +31,7 @@ public class PriceProposal {
     @Column(name = "Data")
     LocalDateTime date;
 
-    public PriceProposal(){};
+    public PriceProposal(){}
 
     public PriceProposal(Offer offer, Client client, Float price){
         this.client = client;

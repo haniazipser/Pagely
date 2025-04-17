@@ -5,9 +5,7 @@ import com.example.Sklep_z_ksiazkami.Model.Status;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
+
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -42,7 +40,7 @@ public class Client {
     LocalDateTime deactivated;
     @JsonManagedReference
     @OneToMany(mappedBy = "client")
-    Set <User> users;
+    Set <MyUser> users;
     @JsonManagedReference
     @OneToMany(mappedBy = "client")
     Set <Offer> offers;
@@ -52,9 +50,9 @@ public class Client {
 
 
 
-    public Client(){};
+    public Client(){}
 
-    public Client(Integer id, String name, String NIP, LocalDate dateOfBirth, String sex, ClientType type, Status status, String accountNumber, String accountHolder, LocalDateTime deactivated, Set<User> users, Set<Order> orders) {
+    public Client(Integer id, String name, String NIP, LocalDate dateOfBirth, String sex, ClientType type, Status status, String accountNumber, String accountHolder, LocalDateTime deactivated, Set<MyUser> users, Set<Order> orders) {
         this.id = id;
         this.name = name;
         this.NIP = NIP;
@@ -67,6 +65,17 @@ public class Client {
         this.deactivated = deactivated;
         this.users = users;
         this.orders = orders;
+    }
+
+    public Client(String name, String NIP, LocalDate dateOfBirth, String sex, ClientType type, Status status, String accountNumber, String accountHolder) {
+        this.name = name;
+        this.NIP = NIP;
+        this.dateOfBirth = dateOfBirth;
+        this.sex = sex;
+        this.type = type;
+        this.status = status;
+        this.accountNumber = accountNumber;
+        this.accountHolder = accountHolder;
     }
 
     public Integer getId() {
@@ -149,11 +158,11 @@ public class Client {
         this.deactivated = deactivated;
     }
 
-    public Set<User> getUsers() {
+    public Set<MyUser> getUsers() {
         return users;
     }
 
-    public void setUsers(Set<User> users) {
+    public void setUsers(Set<MyUser> users) {
         this.users = users;
     }
 

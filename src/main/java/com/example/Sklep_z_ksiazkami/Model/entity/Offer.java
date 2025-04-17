@@ -37,9 +37,7 @@ public class Offer {
     String state;
     @Column(name = "Rok_Wydania")
     Integer published;
-    @ManyToOne()
-    @JoinColumn(name="ISBN")
-    ISBN isbn;
+    String isbn;
     @Column(name = "Cena")
     Float price;
 
@@ -62,7 +60,7 @@ public class Offer {
     @Column(name="Slowo_klucz")
     Set<String> keyWords;
 
-    public Offer(Integer id, Client client, LocalDate date, String title, String author, String language, String description, String state, Integer published, ISBN isbn, Float price, Category category, String offerNumber, Status status, LocalDateTime deactivated, Set <String> K) {
+    public Offer(Integer id, Client client, LocalDate date, String title, String author, String language, String description, String state, Integer published, String isbn, Float price, Category category, String offerNumber, Status status, LocalDateTime deactivated, Set <String> K) {
         this.id = id;
         this.client = client;
         this.date = date;
@@ -80,7 +78,7 @@ public class Offer {
         this.deactivated = deactivated;
         this.keyWords = K;
     }
-    public Offer(){};
+    public Offer(){}
 
     public Integer getId() {
         return id;
@@ -154,11 +152,11 @@ public class Offer {
         this.published = published;
     }
 
-    public ISBN getIsbn() {
+    public String getIsbn() {
         return isbn;
     }
 
-    public void setIsbn(ISBN isbn) {
+    public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
 

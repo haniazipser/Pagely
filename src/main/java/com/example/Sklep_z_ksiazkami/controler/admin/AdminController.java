@@ -13,9 +13,6 @@ import com.example.Sklep_z_ksiazkami.serwisy.BookAppService;
 import com.example.Sklep_z_ksiazkami.serwisy.ClientAppService;
 import com.example.Sklep_z_ksiazkami.serwisy.OfferAppService;
 import com.example.Sklep_z_ksiazkami.serwisy.UserAppService;
-import jakarta.validation.Valid;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -57,33 +54,33 @@ public class AdminController {
     }
 
     @PostMapping("/books")
-    public void createBook (@Valid @RequestBody Book book){
+    public void createBook ( @RequestBody Book book){
         bookAppService.CreateBook(book);
     }
 
     @PostMapping("/books/{bookId}/ISBN/{isbn}")
-    public void addISBNToBook (@PathVariable int bookId, @Valid @PathVariable String isbn){
+    public void addISBNToBook (@PathVariable int bookId, @PathVariable String isbn){
         System.out.println("id:" + bookId + " isbn :" + isbn);
         bookAppService.addISBNToBook(bookId, isbn);
     }
 
-    @PutMapping("/users/{login}/{status}")
+   /* @PutMapping("/users/{login}/{status}")
     public void updateUserStatus (@PathVariable String login, @Valid @PathVariable Status status){
         userAppService.updateStatus(login, status);
-    }
+    }*/
 
     @PutMapping("/clients/{id}/{status}")
-    public void updateClientStatus (@PathVariable Integer id, @Valid @PathVariable Status status){
+    public void updateClientStatus (@PathVariable Integer id,  @PathVariable Status status){
         clientAppService.updateStatus(id, status);
     }
 
     @PutMapping("/offers/{id}/{status}")
-    public void updateOfferStatus (@PathVariable Integer id, @Valid @PathVariable Status status){
+    public void updateOfferStatus (@PathVariable Integer id,  @PathVariable Status status){
         offerAppService.updateStatus(id, status);
     }
 
     @DeleteMapping("/books/ISBN/{isbn}")
-    public void deleteISBN (@Valid @PathVariable String isbn){
+    public void deleteISBN ( @PathVariable String isbn){
         bookAppService.deleteISBN ( isbn);
     }
 

@@ -24,7 +24,7 @@ public class Author {
     @JsonBackReference
     Set <Book> books;
 
-    public Author(){};
+    public Author(){}
 
     public Author(int id, String name, String biography, Set<Book> books) {
         this.id = id;

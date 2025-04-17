@@ -73,12 +73,12 @@ public class Order {
     public Order(Client client){
         this.buyer = client;
         this.orderTotal = 0f;
-        this.orderNumber = String.format("%s-%s-%d", client.getName().substring(0,3), now().toString(), (int) (random() * 1000 + 1));
+        this.orderNumber = String.format("%s-%s-%d", client.getName().substring(0,3), now(), (int) (random() * 1000 + 1));
         this.status = OrderStatus.DRAFT;
         this.items = new HashSet<>();
     }
 
-    public Order(){};
+    public Order(){}
 
     public OrderDetailsDto addOffer(Offer offer, Float price){
         checkIfDraft();

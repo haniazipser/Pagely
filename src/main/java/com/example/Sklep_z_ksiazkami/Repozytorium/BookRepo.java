@@ -31,4 +31,7 @@ public interface  BookRepo extends JpaRepository<Book, Integer> {
     """
     )
     List<BestsellerDto> findByCategoryId(Integer categoryId);
+
+    @Query("SELECT b FROM Book b WHERE LOWER(b.title) LIKE LOWER(CONCAT('%', ?1, '%'))")
+    List<Book> findByTitle(String title);
 }

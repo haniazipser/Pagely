@@ -19,7 +19,7 @@ public class ISBN {
     @OneToMany(mappedBy = "isbn")
     Set<Offer> offers;
 
-    public ISBN(){};
+    public ISBN(){}
 
     public ISBN(String ISBN, Book book) {
         this.ISBN = ISBN;

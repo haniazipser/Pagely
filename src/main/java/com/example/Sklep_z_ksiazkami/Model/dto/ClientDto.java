@@ -3,7 +3,7 @@ package com.example.Sklep_z_ksiazkami.Model.dto;
 import com.example.Sklep_z_ksiazkami.Model.ClientType;
 import com.example.Sklep_z_ksiazkami.Model.Status;
 import com.example.Sklep_z_ksiazkami.Model.entity.Client;
-import com.example.Sklep_z_ksiazkami.Model.entity.User;
+import com.example.Sklep_z_ksiazkami.Model.entity.MyUser;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;

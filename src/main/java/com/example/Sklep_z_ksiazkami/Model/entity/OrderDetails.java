@@ -40,7 +40,7 @@ public class OrderDetails {
     }
 
 
-    public OrderDetails(){};
+    public OrderDetails(){}
 
     public Integer getId() {
         return id;

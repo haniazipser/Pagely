@@ -19,6 +19,13 @@ public class BestsellerDto {
         this.rating = rating;
     }
 
+    public BestsellerDto(Book book){
+        this.id = book.getId();
+        this.title = book.getTitle();
+        this.description = book.getDescription();
+        this.category = book.getCategory().getCategoryName();
+    }
+
     public int getId() {
         return id;
     }

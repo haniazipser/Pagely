@@ -36,7 +36,8 @@ public class BookReview {
         this.book = book;
     }
 
-    public BookReview(){};
+    public BookReview(){}
+
     public Integer getId() {
         return Id;
     }

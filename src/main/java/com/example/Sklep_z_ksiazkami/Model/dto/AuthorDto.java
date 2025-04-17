@@ -14,13 +14,13 @@ public class AuthorDto {
 
     String name;
     String biography;
-    Set<String> books;
+    Set<BestsellerDto> books;
 
     public AuthorDto (Author author){
         this.id= author.getId();
         this.name = author.getName();
         this.biography = author.getBiography();
-        this.books =author.getBooks().stream().map(b -> b.getTitle()).collect(Collectors.toSet());
+        this.books =author.getBooks().stream().map(b -> new BestsellerDto(b)).collect(Collectors.toSet());
     }
 
     public int getId() {
@@ -47,11 +47,11 @@ public class AuthorDto {
         this.biography = biography;
     }
 
-    public Set<String> getBooks() {
+    public Set<BestsellerDto> getBooks() {
         return books;
     }
 
-    public void setBooks(Set<String> books) {
+    public void setBooks(Set<BestsellerDto> books) {
         this.books = books;
     }
 }

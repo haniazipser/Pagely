@@ -21,6 +21,8 @@ public class OfferDto {
     private String state;
     private CategoryDto category;
 
+    private String isbn;
+
     Set<String> keyWords;
 
     List<ShippingMethodDto> shippingMethods;
@@ -38,6 +40,7 @@ public class OfferDto {
         this.category= new CategoryDto(offer.getCategory());
         this.language = offer.getLanguage();
         this.published = offer.getPublished();
+        this.isbn = offer.getIsbn();
     }
 
     public OfferDto(Offer offer, List<ShippingMethod> shippingMethod) {
@@ -52,6 +55,7 @@ public class OfferDto {
         this.language = offer.getLanguage();
         this.published = offer.getPublished();
         this.shippingMethods =shippingMethod.stream().map(s -> new ShippingMethodDto(s)).collect(Collectors.toList());
+        this.isbn = offer.getIsbn();
     }
 
     public int getId() {
@@ -126,7 +130,13 @@ public class OfferDto {
         this.published = published;
     }
 
+    public String getIsbn() {
+        return isbn;
+    }
 
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
 
     public List<ShippingMethodDto> getShippingMethods() {
         return shippingMethods;

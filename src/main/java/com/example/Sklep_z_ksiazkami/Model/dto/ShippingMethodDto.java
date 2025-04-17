@@ -14,7 +14,7 @@ public class ShippingMethodDto {
         this.price = shippingMethod.getPrice();
     }
 
-    public ShippingMethodDto(){};
+    public ShippingMethodDto(){}
 
     public Integer getClientId() {
         return clientId;

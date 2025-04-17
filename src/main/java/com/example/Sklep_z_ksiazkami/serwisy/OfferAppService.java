@@ -93,4 +93,8 @@ public class OfferAppService {
         OfferDto offerDto = new OfferDto(offer, shippingMethods);
         return offerDto;
     }
+
+    public List<OfferDto> getOffersByIsbn(String isbn) {
+        return repo.findByIsbn(isbn).stream().map(o -> new OfferDto(o)).collect(Collectors.toList());
+    }
 }

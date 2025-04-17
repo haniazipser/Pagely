@@ -23,7 +23,7 @@ public class ShippingMethod {
         this.price = price;
     }
 
-    public ShippingMethod(){};
+    public ShippingMethod(){}
 
     public ShippingMethodId getId() {
         return id;

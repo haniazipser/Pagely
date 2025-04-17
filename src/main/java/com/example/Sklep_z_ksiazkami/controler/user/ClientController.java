@@ -4,23 +4,24 @@ package com.example.Sklep_z_ksiazkami.controler.user;
 import com.example.Sklep_z_ksiazkami.Model.dto.BookDto;
 import com.example.Sklep_z_ksiazkami.Model.dto.OfferDto;
 import com.example.Sklep_z_ksiazkami.Model.dto.OrderDto;
+import com.example.Sklep_z_ksiazkami.Model.dto.UserDto;
 import com.example.Sklep_z_ksiazkami.Model.entity.Book;
 import com.example.Sklep_z_ksiazkami.Model.entity.Client;
 import com.example.Sklep_z_ksiazkami.Model.entity.Offer;
 import com.example.Sklep_z_ksiazkami.Model.entity.Order;
 import com.example.Sklep_z_ksiazkami.serwisy.*;
-import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.MediaType;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping("/api/client")
+@RequestMapping("/public/api/client")
 public class ClientController {
 
     Logger logger = LoggerFactory.getLogger(ClientController.class);
@@ -37,8 +38,6 @@ public class ClientController {
 
         this.orderAppService = orderAppService;
     }
-
-
 
     @GetMapping("/offers/{id}")
     public List<Offer> getClientsOffers(@PathVariable int id){

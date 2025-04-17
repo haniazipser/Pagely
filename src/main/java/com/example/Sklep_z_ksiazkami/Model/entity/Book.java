@@ -21,6 +21,9 @@ public class Book {
     @Column(name="Opis")
     String description;
 
+    @Column(name="Pelen_opis")
+    String fullDescription;
+
     @ManyToOne
     @JoinColumn(name = "Id_kategorii")
     @JsonManagedReference
@@ -38,8 +41,9 @@ public class Book {
     @JsonManagedReference
     Set <BookReview> reviews;
 
-    public Book(){};
-    public Book(int id, String title, String description, Category category, int published, Set<Author> authors, Set<ISBN> ISBN, Set<BookReview> reviews) {
+    public Book(){}
+
+    public Book(int id, String title, String description, Category category, int published, Set<Author> authors, Set<ISBN> ISBN, Set<BookReview> reviews, String fullDescription) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -48,6 +52,7 @@ public class Book {
         this.authors = authors;
         this.ISBN = ISBN;
         this.reviews = reviews;
+        this.fullDescription = fullDescription;
     }
 
     public int getId() {
@@ -111,5 +116,13 @@ public class Book {
 
     public void setReviews(Set<BookReview> reviews) {
         this.reviews = reviews;
+    }
+
+    public String getFullDescription() {
+        return fullDescription;
+    }
+
+    public void setFullDescription(String fullDescription) {
+        this.fullDescription = fullDescription;
     }
 }

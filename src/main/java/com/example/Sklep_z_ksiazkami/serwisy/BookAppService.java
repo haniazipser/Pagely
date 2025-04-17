@@ -86,4 +86,8 @@ public class BookAppService {
     public List<CategoryDto> getCategoryTree(){
         return categoryRepo.findByParentCategoryId(1).stream().map(c -> new CategoryDto(c)).collect(Collectors.toList());
     }
+
+    public List<BookDto> getBookByName(String searchPhrase) {
+        return repo.findByTitle(searchPhrase).stream().map(b -> new BookDto(b)).collect(Collectors.toList());
+    }
 }

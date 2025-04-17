@@ -28,7 +28,7 @@ public class Category {
     @JsonManagedReference
     Set<Category> childCategories;
 
-    public Category(){};
+    public Category(){}
 
     public Category(int id, String categoryName, Category parentCategory, Set<Category> childCategories) {
         this.id = id;
