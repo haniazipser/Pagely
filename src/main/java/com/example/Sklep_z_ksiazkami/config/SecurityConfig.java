@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,12 +20,20 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfig {
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(c -> c.disable())
+        http.cors(Customizer.withDefaults()).csrf(c -> c.disable())
                 .authorizeHttpRequests((a) ->
-                        a.requestMatchers("/public/**").permitAll()
+                        a.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // <-- to jest KLUCZOWE!
+                        .requestMatchers("/public/**").permitAll()
                                 .anyRequest().authenticated());
-        http.formLogin(form -> form.defaultSuccessUrl("http://localhost:3000/", true));
+        http.formLogin(form -> form.defaultSuccessUrl("http://localhost:3000/", true).loginPage("/login").permitAll());
+
         http.httpBasic(withDefaults());
+        http.logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("http://localhost:3000/")
+                .invalidateHttpSession(true)
+        );
+
         return http.build();
     }
 

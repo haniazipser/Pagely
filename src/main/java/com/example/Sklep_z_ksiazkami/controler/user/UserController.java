@@ -3,12 +3,17 @@ package com.example.Sklep_z_ksiazkami.controler.user;
 
 
 import com.example.Sklep_z_ksiazkami.Model.dto.ClientUserDto;
+import com.example.Sklep_z_ksiazkami.Model.dto.UserDto;
 import com.example.Sklep_z_ksiazkami.Model.entity.Client;
 import com.example.Sklep_z_ksiazkami.Model.entity.MyUser;
 import com.example.Sklep_z_ksiazkami.Repozytorium.ClientRepo;
 import com.example.Sklep_z_ksiazkami.Repozytorium.UserRepo;
+import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +30,12 @@ public class UserController {
         this.userRepo = userRepo;
         this.passwordEncoder = passwordEncoder;
         this.clientRepo = clientRepo;
+    }
+
+    @GetMapping("/user")
+    public String getLogin (){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
     }
 
     @PostMapping("/public/register")

@@ -1,10 +1,7 @@
 package com.example.Sklep_z_ksiazkami.controler.user;
 
 
-import com.example.Sklep_z_ksiazkami.Model.dto.BookDto;
-import com.example.Sklep_z_ksiazkami.Model.dto.OfferDto;
-import com.example.Sklep_z_ksiazkami.Model.dto.OrderDto;
-import com.example.Sklep_z_ksiazkami.Model.dto.UserDto;
+import com.example.Sklep_z_ksiazkami.Model.dto.*;
 import com.example.Sklep_z_ksiazkami.Model.entity.Book;
 import com.example.Sklep_z_ksiazkami.Model.entity.Client;
 import com.example.Sklep_z_ksiazkami.Model.entity.Offer;
@@ -13,6 +10,8 @@ import com.example.Sklep_z_ksiazkami.serwisy.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +20,7 @@ import java.util.Set;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping("/public/api/client")
+@RequestMapping("/api/client")
 public class ClientController {
 
     Logger logger = LoggerFactory.getLogger(ClientController.class);
@@ -29,12 +28,15 @@ public class ClientController {
    // private final UserAppService userAppService;
     private final OfferAppService offerAppService;
 
+    private final ClientAppService clientAppService;
+
     private final OrderAppService orderAppService;
 
 
-    public ClientController(BookAppService bookAppService, OfferAppService offerAppService, OrderAppService orderAppService) {
+    public ClientController(BookAppService bookAppService, OfferAppService offerAppService, ClientAppService clientAppService, OrderAppService orderAppService) {
         this.bookAppService = bookAppService;
         this.offerAppService = offerAppService;
+        this.clientAppService = clientAppService;
 
         this.orderAppService = orderAppService;
     }
@@ -43,6 +45,12 @@ public class ClientController {
     public List<Offer> getClientsOffers(@PathVariable int id){
         logger.info("id:{}", id);
         return offerAppService.getClientsOffers(id);
+    }
+
+    @GetMapping("/info")
+    public ClientDto getClientInfo(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return new ClientDto(clientAppService.getClientByUser(authentication.getName()));
     }
 
     @GetMapping("/orders/{id}")

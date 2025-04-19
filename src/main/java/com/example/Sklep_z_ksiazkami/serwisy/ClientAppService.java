@@ -29,4 +29,8 @@ public class ClientAppService {
     public List<Client> getAllClients() {
         return repo.findAll();
     }
+
+    public Client getClientByUser(String login) {
+        return repo.findByUsersLogin(login);
+    }
 }

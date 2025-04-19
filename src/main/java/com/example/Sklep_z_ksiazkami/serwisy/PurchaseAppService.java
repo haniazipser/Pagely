@@ -37,9 +37,12 @@ public class PurchaseAppService {
     }
 
     public OrderDto addOffer(Integer offerId, Integer buyerId){
+        logger.info("w metodzie");
         Order order =orderRepo.findByBuyerIdAndStatus(buyerId, OrderStatus.DRAFT);
         if (order == null){
+            logger.info("tworzymy nowe zamowienie");
             Integer orderId = createNewOrder(buyerId);
+            logger.info("Id:" + orderId);
             order = orderRepo.getById(orderId);
         }
             Offer offer = offerRepo.getById(offerId);
@@ -61,6 +64,7 @@ public class PurchaseAppService {
     }
 
     public OrderDto deleteOfferFromOrder(Integer itemId, Integer buyerId){
+        logger.info("in delete method");
         Order order = orderRepo.findByBuyerIdAndStatus(buyerId, OrderStatus.DRAFT);
         boolean found = false;
         Set<OrderDetails> items = order.getItems();

@@ -7,6 +7,9 @@ import com.example.Sklep_z_ksiazkami.Model.dto.OfferDto;
 import com.example.Sklep_z_ksiazkami.Model.entity.Category;
 import com.example.Sklep_z_ksiazkami.serwisy.BookAppService;
 import com.example.Sklep_z_ksiazkami.serwisy.OfferAppService;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -34,6 +37,18 @@ public class HomeController {
         //content.add(bookAppService.getBestFromCategory(14));
        // content.add(bookAppService.getBestFromCategory(4));
         return content;
+    }
+
+    @GetMapping("/isLogged")
+    public boolean isLogged(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null && authentication.isAuthenticated() &&
+                !(authentication instanceof AnonymousAuthenticationToken)) {
+            return true;  // User is logged in
+        } else {
+            return false; // User is not logged in
+        }
     }
 
     @GetMapping("/books/{id}")
