@@ -21,30 +21,17 @@ public class ClientDto {
 
     String NIP;
 
-    LocalDate dateOfBirth;
-
-    String sex;
     ClientType type;
 
     Status status;
 
-    String accountNumber;
-    String accountHolder;
-    //LocalDateTime deactivated;
-
-   // Set<UserDto> users;
 
     public ClientDto (Client client){
         this.id = client.getId();
         this.name = client.getName();
         this.NIP = client.getNIP();
-        this.dateOfBirth = client.getDateOfBirth();
-        this.sex = client.getSex();
         this.type = client.getType();
         this.status = client.getStatus();
-        this.accountNumber = client.getAccountNumber();
-        this.accountHolder = client.getAccountHolder();
-        //this.users = client.getUsers().stream().map(u -> new UserDto(u)).collect(Collectors.toSet());
     }
 
 }

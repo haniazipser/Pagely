@@ -4,10 +4,12 @@ import com.example.Sklep_z_ksiazkami.Model.entity.Author;
 import com.example.Sklep_z_ksiazkami.Model.entity.Book;
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Set;
 import java.util.stream.Collectors;
-
+@Getter @Setter
 public class AuthorDto {
 
     int id;
@@ -21,37 +23,5 @@ public class AuthorDto {
         this.name = author.getName();
         this.biography = author.getBiography();
         this.books =author.getBooks().stream().map(b -> new BestsellerDto(b)).collect(Collectors.toSet());
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getBiography() {
-        return biography;
-    }
-
-    public void setBiography(String biography) {
-        this.biography = biography;
-    }
-
-    public Set<BestsellerDto> getBooks() {
-        return books;
-    }
-
-    public void setBooks(Set<BestsellerDto> books) {
-        this.books = books;
     }
 }

@@ -1,9 +1,11 @@
 package com.example.Sklep_z_ksiazkami.Model.dto;
 
 import com.example.Sklep_z_ksiazkami.Model.entity.Book;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.stream.Collectors;
-
+@Getter @Setter
 public class BestsellerDto {
 
     int id;
@@ -24,45 +26,5 @@ public class BestsellerDto {
         this.title = book.getTitle();
         this.description = book.getDescription();
         this.category = book.getCategory().getCategoryName();
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public Double getRating() {
-        return rating;
-    }
-
-    public void setRating(Double rating) {
-        this.rating = rating;
     }
 }

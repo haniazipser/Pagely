@@ -42,9 +42,9 @@ public class UserController {
     public ResponseEntity<String> registerUser(@RequestBody ClientUserDto userClient){
         try{
             String hashPwd = passwordEncoder.encode(userClient.getPassword());
-            Client client = new Client(userClient.getName(), userClient.getNIP(), userClient.getDateOfBirth(), userClient.getSex(), userClient.getClientType(),userClient.getClientStatus(),userClient.getAccountNumber(),userClient.getAccountHolder());
+            Client client = new Client(userClient.getName(), userClient.getNIP(), userClient.getClientType(),userClient.getClientStatus());
             Client savedClient = clientRepo.save(client);
-            MyUser user = new MyUser(userClient.getLogin(), hashPwd, savedClient, userClient.getUserType(), userClient.getUserStatus(), userClient.getName(), null, userClient.getRole());
+            MyUser user = new MyUser(userClient.getEmail(), hashPwd, savedClient, userClient.getUserType(), userClient.getUserStatus(), userClient.getName(), null, userClient.getRole());
             MyUser savedUser = userRepo.save(user);
             if (savedUser.getId() > 0){
                 return ResponseEntity.status(HttpStatus.CREATED).body("given user was saved");

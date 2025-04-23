@@ -2,10 +2,12 @@ package com.example.Sklep_z_ksiazkami.Model.dto;
 
 import com.example.Sklep_z_ksiazkami.Model.entity.Book;
 import com.example.Sklep_z_ksiazkami.Model.entity.BookReview;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Set;
 import java.util.stream.Collectors;
-
+@Getter @Setter
 public class BookDto {
     int id;
     String title;
@@ -37,91 +39,5 @@ public class BookDto {
             sum += r.getStars();
         }
         this.rating = sum / reviews.size();
-    }
-
-    /*public Book dtoToBook (){
-        return new Book(id, title, description, category.dtoToCategory(), published, authors, ISBN);
-    }*/
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public CategoryDto getCategory() {
-        return category;
-    }
-
-    public void setCategory(CategoryDto category) {
-        this.category = category;
-    }
-
-    public int getPublished() {
-        return published;
-    }
-
-    public void setPublished(int published) {
-        this.published = published;
-    }
-
-    public Set<AuthorDto> getAuthors() {
-        return authors;
-    }
-
-    public void setAuthors(Set<AuthorDto> authors) {
-        this.authors = authors;
-    }
-
-    public Set<String> getISBN() {
-        return ISBN;
-    }
-
-    public void setISBN(Set<String> ISBN) {
-        this.ISBN = ISBN;
-    }
-
-
-    public Set<BookReviewDto> getReviews() {
-        return reviews;
-    }
-
-    public void setReviews(Set<BookReviewDto> reviews) {
-        this.reviews = reviews;
-    }
-
-
-    public Double getRating() {
-        return rating;
-    }
-
-    public void setRating(Double rating) {
-        this.rating = rating;
-    }
-
-    public String getFullDescription() {
-        return fullDescription;
-    }
-
-    public void setFullDescription(String fullDescription) {
-        this.fullDescription = fullDescription;
     }
 }

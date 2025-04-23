@@ -13,14 +13,10 @@ public class ClientUserDto {
 
     String name;
     String NIP;
-    LocalDate dateOfBirth;
-    String sex;
     ClientType clientType;
     Status clientStatus;
-    String accountNumber;
-    String accountHolder;
 
-    String login;
+    String email;
     String password;
     UserType userType;
     Status userStatus;

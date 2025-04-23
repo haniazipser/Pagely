@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter @Setter
 public class UserDto {
     Integer Id;
-    String login;
+    String email;
     String password;
     ClientDto client;
     UserType type;
@@ -18,7 +18,7 @@ public class UserDto {
     String role;
 
     public UserDto(MyUser user){
-        this.login = user.getLogin();
+        this.email = user.getEmail();
         this.password = user.getPassword();
         this.client = new ClientDto(user.getClient());
         this.type = user.getType();

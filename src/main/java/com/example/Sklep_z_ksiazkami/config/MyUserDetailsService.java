@@ -2,6 +2,9 @@ package com.example.Sklep_z_ksiazkami.config;
 
 import com.example.Sklep_z_ksiazkami.Model.entity.MyUser;
 import com.example.Sklep_z_ksiazkami.Repozytorium.UserRepo;
+import com.example.Sklep_z_ksiazkami.controler.user.ClientController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -15,6 +18,7 @@ import java.util.List;
 @Service
 public class MyUserDetailsService implements UserDetailsService {
     private final UserRepo userRepo;
+    Logger logger = LoggerFactory.getLogger(UserDetailsService.class);
 
     public MyUserDetailsService(UserRepo userRepo) {
         this.userRepo = userRepo;
@@ -22,8 +26,10 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        MyUser user = userRepo.findByLogin(username).orElseThrow(()->new UsernameNotFoundException("User not found"));
+        logger.info("trying to load:" + username);
+        MyUser user = userRepo.findByEmail(username).orElseThrow(()->new UsernameNotFoundException("User not found"));
+        logger.info("loaded " + user);
         List<GrantedAuthority> authorityList = List.of(new SimpleGrantedAuthority(user.getRole()));
-        return new User(user.getLogin(),user.getPassword(),authorityList);
+        return new User(user.getEmail(),user.getPassword(),authorityList);
     }
 }

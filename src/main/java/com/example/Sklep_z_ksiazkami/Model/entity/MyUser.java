@@ -16,12 +16,12 @@ public class MyUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
-    @Column(name = "Login")
-    String login;
+    @Column(name = "Email")
+    String email;
     @Column(name = "Haslo")
     String password;
 
-    @Column(name="Imie")
+    @Column(name="Nazwa")
     String name;
 
     @Column(name = "Zdjecie")
@@ -41,8 +41,8 @@ public class MyUser {
 
     public MyUser(){}
 
-    public MyUser(String login, String password, Client client, UserType type, Status status,String name, String picture, String role) {
-        this.login = login;
+    public MyUser(String email, String password, Client client, UserType type, Status status,String name, String picture, String role) {
+        this.email = email;
         this.password = password;
         this.client = client;
         this.type = type;

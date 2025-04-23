@@ -31,6 +31,6 @@ public class ClientAppService {
     }
 
     public Client getClientByUser(String login) {
-        return repo.findByUsersLogin(login);
+        return repo.findByUsersEmail(login);
     }
 }
