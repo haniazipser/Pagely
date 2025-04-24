@@ -1,5 +1,6 @@
 package com.example.Sklep_z_ksiazkami.Model.dto;
 
+import com.example.Sklep_z_ksiazkami.Model.entity.Money;
 import com.example.Sklep_z_ksiazkami.Model.entity.ShippingMethod;
 import jakarta.persistence.Column;
 import lombok.Getter;
@@ -9,7 +10,7 @@ import lombok.Setter;
 public class ShippingMethodDto {
     private Integer clientId;
     private String shippingMethod;
-    Float price;
+    Money price;
 
     public ShippingMethodDto(ShippingMethod shippingMethod){
         this.clientId = shippingMethod.getId().getClientId();

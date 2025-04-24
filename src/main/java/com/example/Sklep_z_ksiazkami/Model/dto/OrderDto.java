@@ -2,6 +2,7 @@ package com.example.Sklep_z_ksiazkami.Model.dto;
 
 import com.example.Sklep_z_ksiazkami.Model.OrderStatus;
 import com.example.Sklep_z_ksiazkami.Model.entity.Client;
+import com.example.Sklep_z_ksiazkami.Model.entity.Money;
 import com.example.Sklep_z_ksiazkami.Model.entity.Order;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -17,12 +18,12 @@ public class OrderDto {
     private Integer id;
     private String orderNumber;
     private LocalDateTime orderDate;
-    private Float orderTotal;
+    private Money orderTotal;
     private OrderStatus status;
 
     private LocalDateTime shippingDate;
     private LocalDateTime deliveryDate;
-    private Float shippingCost;
+    private Money shippingCost;
     private String shippingMethod;
 
     private Set<OrderDetailsDto> items;

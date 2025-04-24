@@ -1,49 +1,44 @@
 package com.example.Sklep_z_ksiazkami.Model.entity;
 
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.Transient;
+import lombok.Getter;
+import lombok.Setter;
 
-@SuppressWarnings("serial")
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Currency;
+
+
 @Embeddable
-public class Money{
-   /* public static final Currency DEFAULT_
-    CURRENCY = Currency.getInstance("EUR");
-    public static final Money ZERO = new
-            Money(BigDecimal.ZERO, DEFAULT_CURRENCY);
+@Getter
+public class Money  implements Serializable {
+
     private BigDecimal value;
-    private String currencyCode;
-    public Money(double value, Currency
-            currency) {
-        this(new BigDecimal(value), currency.
-                getCurrencyCode());
+    protected Money(){}
+
+    public Money(BigDecimal v) {
+        this.value = v;
     }
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof Money) {
-            Money money = (Money) obj;
-            return compatibleCurrency(money) &&
-                    value.equals(money.value);
-        }
-        return false;
+
+    public Money(double v) {
+        this(new BigDecimal(v));
     }
-    public Money multiplyBy(double multiplier)
-    {
-        return multiplyBy(new
-                BigDecimal(multiplier));
+
+    public static Money zero() {
+        return new Money(BigDecimal.ZERO);
     }
-    public Money add(Money money) {
-        if (!compatibleCurrency(money)) {
-            throw new (IllegalArgumentException("Currency mismatch");
-        }
-        return new Money(value.add(money.value),
-                determineCurrencyCode(money));
+    public Money add(Money other) {
+        return new Money(this.value.add(other.value));
     }
-    public String getCurrencyCode() {
-        return currencyCode;
+
+    public Money subtract(Money other) {
+        return new Money(this.value.subtract(other.value));
     }
-    public boolean greaterThan(Money other) {
-        return value.compareTo(other.value) > 0;
+
+    public Money multiply(BigDecimal multiplier) {
+        return new Money(this.value.multiply(multiplier));
     }
-    @Override
-    public String toString() {
-        return String.format("%0$.2f %s", value,
-                getCurrency().getSymbol());*/}
+
+
+}

@@ -1,6 +1,7 @@
 package com.example.Sklep_z_ksiazkami.Model.dto;
 
 import com.example.Sklep_z_ksiazkami.Model.Status;
+import com.example.Sklep_z_ksiazkami.Model.entity.Money;
 import com.example.Sklep_z_ksiazkami.Model.entity.Offer;
 import com.example.Sklep_z_ksiazkami.Model.entity.ShippingMethod;
 import jakarta.persistence.Column;
@@ -18,7 +19,7 @@ public class OfferDto {
     private String author;
     String language;
     Integer published;
-    private float price;
+    private Money price;
     private LocalDate date;
     private String state;
     private CategoryDto category;

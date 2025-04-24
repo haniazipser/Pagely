@@ -78,8 +78,11 @@
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
 
-
-
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 	</dependencies>
 
 
@@ -89,6 +92,10 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<profiles>
+						<!-- <profile>h2</profile> -->
+						<profile>mssql</profile>
+					</profiles>
 					<jvmArguments>--add-opens java.base/sun.net.www.protocol.https=ALL-UNNAMED</jvmArguments>
 				</configuration>
 			</plugin>

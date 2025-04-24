@@ -2,10 +2,7 @@ package com.example.Sklep_z_ksiazkami.controler.user;
 
 
 import com.example.Sklep_z_ksiazkami.Model.dto.*;
-import com.example.Sklep_z_ksiazkami.Model.entity.Book;
-import com.example.Sklep_z_ksiazkami.Model.entity.Client;
-import com.example.Sklep_z_ksiazkami.Model.entity.Offer;
-import com.example.Sklep_z_ksiazkami.Model.entity.Order;
+import com.example.Sklep_z_ksiazkami.Model.entity.*;
 import com.example.Sklep_z_ksiazkami.serwisy.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -59,8 +57,8 @@ public class ClientController {
     }
 
     @PostMapping("/offers/proposal/{offerId}/{clientId}/{price}")
-    public void newPriceProposal(@PathVariable Integer offerId, @PathVariable Integer clientId, @PathVariable Float price){
-        offerAppService.createPriceProposal(offerId,clientId,price);
+    public void newPriceProposal(@PathVariable Integer offerId, @PathVariable Integer clientId, @PathVariable BigDecimal price){
+        offerAppService.createPriceProposal(offerId,clientId,new Money(price));
     }
 
 }

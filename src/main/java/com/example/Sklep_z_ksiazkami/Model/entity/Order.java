@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -23,6 +25,7 @@ import static java.time.LocalDateTime.now;
 // Data_potwierdzenia_odbioru DATETIME NULL, Cena_wysylki MONEY NULL,   varchar(255) NULL,
 @Entity
 @Table(name = "Zamowienia")
+@Getter @Setter
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,8 +39,14 @@ public class Order {
     Client buyer;
     @Column(name = "Data_zamowienia")
     LocalDateTime orderDate;
-    @Column(name = "Kwota")
-    Float orderTotal;
+
+    //@Column(name = "Kwota")
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride( name = "value", column = @Column(name = "Kwota")),
+    })
+    Money orderTotal;
+
     @Column(name = "Status_zamowienia")
     @Enumerated(EnumType.STRING)
     OrderStatus status;
@@ -45,8 +54,12 @@ public class Order {
     LocalDateTime shippingDate;
     @Column(name = "Data_potwierdzenia_odbioru")
     LocalDateTime deliveryDate;
-    @Column(name = "Cena_wysylki")
-    Float shippingCost;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride( name = "value", column = @Column(name = "Cena_wysylki")),
+    })
+    Money shippingCost;
     @Column(name = "Wybrany_sposob_wysylki")
     String shippingMethod;
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -54,7 +67,7 @@ public class Order {
     Set<OrderDetails> items;
 
 
-    public Order(Integer id, String orderNumber, Client buyer, LocalDateTime orderDate, Float orderTotal, OrderStatus status, LocalDateTime shippingDate, LocalDateTime deliveryDate, Float shippingCost, String shippingMethod,Set<OrderDetails> items) {
+    public Order(Integer id, String orderNumber, Client buyer, LocalDateTime orderDate, Money orderTotal, OrderStatus status, LocalDateTime shippingDate, LocalDateTime deliveryDate, Money shippingCost, String shippingMethod,Set<OrderDetails> items) {
         this.id = id;
         this.orderNumber = orderNumber;
         this.buyer = buyer;
@@ -72,7 +85,7 @@ public class Order {
 
     public Order(Client client){
         this.buyer = client;
-        this.orderTotal = 0f;
+        this.orderTotal = Money.zero();
         this.orderNumber = String.format("%s-%s-%d", client.getName().substring(0,3), now(), (int) (random() * 1000 + 1));
         this.status = OrderStatus.DRAFT;
         this.items = new HashSet<>();
@@ -80,7 +93,7 @@ public class Order {
 
     public Order(){}
 
-    public OrderDetailsDto addOffer(Offer offer, Float price){
+    public OrderDetailsDto addOffer(Offer offer, Money price){
         checkIfDraft();
         for (OrderDetails o : items){
             if (o.getOffer().equals(offer)){
@@ -89,14 +102,14 @@ public class Order {
         }
         OrderDetails o = new OrderDetails(this, offer, price);
         items.add(o);
-        orderTotal += price;
+        orderTotal = orderTotal.add( price);
         return new OrderDetailsDto(o);
     }
 
     public void deleteOffer(OrderDetails o){
         checkIfDraft();
         items.remove(o);
-        orderTotal -= o.getPrice();
+        orderTotal = orderTotal.subtract( o.getPrice());
         o.order = null;
     }
 
@@ -105,21 +118,21 @@ public class Order {
     public void addShippingMethod(ShippingMethod method){
             shippingMethod = method.getId().getShippingMethod();
             shippingCost = method.getPrice();
-            orderTotal +=shippingCost;
+            orderTotal = orderTotal.add(shippingCost);
     }
 
     public void changeShippingMethod(ShippingMethod method) {
-        Float old = shippingCost;
+        Money old = shippingCost;
         shippingMethod = method.getId().getShippingMethod();
         shippingCost = method.getPrice();
-        orderTotal -= old;
-        orderTotal +=shippingCost;
+        orderTotal = orderTotal.subtract(old);
+        orderTotal = orderTotal.add(shippingCost);
     }
 
     public void removeShippingMethod() {
         shippingMethod = null;
-        shippingCost = 0f;
-        orderTotal = 0f;
+        shippingCost = Money.zero();
+        orderTotal = Money.zero();
     }
 
 
@@ -134,97 +147,5 @@ public class Order {
             throw new OrderException("This order is already submitted");
         }
     }
-
-    ////////////////
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getOrderNumber() {
-        return orderNumber;
-    }
-
-    public void setOrderNumber(String orderNumber) {
-        this.orderNumber = orderNumber;
-    }
-
-    public Client getBuyer() {
-        return buyer;
-    }
-
-    public void setBuyer(Client buyer) {
-        this.buyer = buyer;
-    }
-
-    public LocalDateTime getOrderDate() {
-        return orderDate;
-    }
-
-    public void setOrderDate(LocalDateTime orderDate) {
-        this.orderDate = orderDate;
-    }
-
-    public Float getOrderTotal() {
-        return orderTotal;
-    }
-
-    public void setOrderTotal(Float orderTotal) {
-        this.orderTotal = orderTotal;
-    }
-
-    public OrderStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(OrderStatus status) {
-        this.status = status;
-    }
-
-    public LocalDateTime getShippingDate() {
-        return shippingDate;
-    }
-
-    public void setShippingDate(LocalDateTime shippingDate) {
-        this.shippingDate = shippingDate;
-    }
-
-    public LocalDateTime getDeliveryDate() {
-        return deliveryDate;
-    }
-
-    public void setDeliveryDate(LocalDateTime deliveryDate) {
-        this.deliveryDate = deliveryDate;
-    }
-
-    public Float getShippingCost() {
-        return shippingCost;
-    }
-
-    public void setShippingCost(Float shippingCost) {
-        this.shippingCost = shippingCost;
-    }
-
-    public String getShippingMethod() {
-        return shippingMethod;
-    }
-
-    public void setShippingMethod(String shippingMethod) {
-        this.shippingMethod = shippingMethod;
-    }
-
-    public Set<OrderDetails> getItems() {
-        return items;
-    }
-
-    public void setItems(Set<OrderDetails> items) {
-        this.items = items;
-    }
-
-
 
 }

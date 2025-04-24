@@ -56,7 +56,7 @@ public class PurchaseAppService {
             if (proposals.isEmpty()) {
                 order.addOffer(offer, offer.getPrice());
             } else {
-                Float negotiatedPrice = proposals.get(0).getPrice();
+                Money negotiatedPrice = proposals.get(0).getPrice();
                 order.addOffer(offer, negotiatedPrice);
             }
             orderRepo.save(order);

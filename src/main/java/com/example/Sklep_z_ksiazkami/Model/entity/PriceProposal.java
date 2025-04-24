@@ -1,6 +1,8 @@
 package com.example.Sklep_z_ksiazkami.Model.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
@@ -8,6 +10,7 @@ import java.time.LocalDateTime;
 // Status varchar(255) NOT NULL, Data DATETIME NOT NULL,
 @Entity
 @Table(name = "Propozycje_cen")
+@Getter @Setter
 public class PriceProposal {
     public enum ProposalStatus {
         ACCEPTED,
@@ -23,8 +26,12 @@ public class PriceProposal {
     @ManyToOne
     @JoinColumn(name= "Id_oferty")
     Offer offer;
-    @Column(name = "Cena")
-    Float price;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride( name = "value", column = @Column(name = "Cena")),
+    })
+    Money price;
     @Column(name = "Status")
     @Enumerated(EnumType.STRING)
     ProposalStatus status;
@@ -33,7 +40,7 @@ public class PriceProposal {
 
     public PriceProposal(){}
 
-    public PriceProposal(Offer offer, Client client, Float price){
+    public PriceProposal(Offer offer, Client client, Money price){
         this.client = client;
         this.offer = offer;
         this.price = price;
@@ -41,60 +48,12 @@ public class PriceProposal {
         this.status = ProposalStatus.WAITING;
     }
 
-    public PriceProposal(Integer id, Client client, Offer offer, Float price, ProposalStatus status, LocalDateTime date) {
+    public PriceProposal(Integer id, Client client, Offer offer, Money price, ProposalStatus status, LocalDateTime date) {
         this.id = id;
         this.client = client;
         this.offer = offer;
         this.price = price;
         this.status = status;
-        this.date = date;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
-    public Offer getOffer() {
-        return offer;
-    }
-
-    public void setOffer(Offer offer) {
-        this.offer = offer;
-    }
-
-    public Float getPrice() {
-        return price;
-    }
-
-    public void setPrice(Float price) {
-        this.price = price;
-    }
-
-    public ProposalStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(ProposalStatus status) {
-        this.status = status;
-    }
-
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 }

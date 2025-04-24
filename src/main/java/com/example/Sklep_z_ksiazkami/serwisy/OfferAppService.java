@@ -2,10 +2,7 @@ package com.example.Sklep_z_ksiazkami.serwisy;
 
 import com.example.Sklep_z_ksiazkami.Model.Status;
 import com.example.Sklep_z_ksiazkami.Model.dto.OfferDto;
-import com.example.Sklep_z_ksiazkami.Model.entity.Client;
-import com.example.Sklep_z_ksiazkami.Model.entity.Offer;
-import com.example.Sklep_z_ksiazkami.Model.entity.PriceProposal;
-import com.example.Sklep_z_ksiazkami.Model.entity.ShippingMethod;
+import com.example.Sklep_z_ksiazkami.Model.entity.*;
 import com.example.Sklep_z_ksiazkami.Repozytorium.ClientRepo;
 import com.example.Sklep_z_ksiazkami.Repozytorium.OfferRepo;
 import com.example.Sklep_z_ksiazkami.Repozytorium.PriceProposalRepo;
@@ -73,7 +70,7 @@ public class OfferAppService {
         return repo.getById(id);
     }
 
-    public void createPriceProposal(int offerId, int clientId, Float price){
+    public void createPriceProposal(int offerId, int clientId, Money price){
         logger.info("w serwisie");
         Offer offer = repo.getById(offerId);
         Client client = clientRepo.getById(clientId);

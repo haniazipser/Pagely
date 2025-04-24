@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,6 +17,7 @@ import java.util.Set;
 
 @Entity
 @Table (name="Oferty")
+@Getter @Setter
 public class Offer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,9 +41,12 @@ public class Offer {
     @Column(name = "Rok_Wydania")
     Integer published;
     String isbn;
-    @Column(name = "Cena")
-    Float price;
 
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride( name = "value", column = @Column(name = "Cena")),
+    })
+    Money price;
     @ManyToOne()
     @JoinColumn(name="Id_kategorii")
     Category category;
@@ -60,7 +66,7 @@ public class Offer {
     @Column(name="Slowo_klucz")
     Set<String> keyWords;
 
-    public Offer(Integer id, Client client, LocalDate date, String title, String author, String language, String description, String state, Integer published, String isbn, Float price, Category category, String offerNumber, Status status, LocalDateTime deactivated, Set <String> K) {
+    public Offer(Integer id, Client client, LocalDate date, String title, String author, String language, String description, String state, Integer published, String isbn, Money price, Category category, String offerNumber, Status status, LocalDateTime deactivated, Set <String> K) {
         this.id = id;
         this.client = client;
         this.date = date;
@@ -80,131 +86,4 @@ public class Offer {
     }
     public Offer(){}
 
-    public Integer getId() {
-        return id;
     }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public Integer getPublished() {
-        return published;
-    }
-
-    public void setPublished(Integer published) {
-        this.published = published;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
-
-    public Float getPrice() {
-        return price;
-    }
-
-    public void setPrice(Float price) {
-        this.price = price;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public String getOfferNumber() {
-        return offerNumber;
-    }
-
-    public void setOfferNumber(String offerNumber) {
-        this.offerNumber = offerNumber;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public LocalDateTime getDeactivated() {
-        return deactivated;
-    }
-
-    public void setDeactivated(LocalDateTime deactivated) {
-        this.deactivated = deactivated;
-    }
-
-    public Set<String> getKeyWords() {
-        return keyWords;
-    }
-
-    public void setKeyWords(Set<String> keyWords) {
-        this.keyWords = keyWords;
-    }
-}

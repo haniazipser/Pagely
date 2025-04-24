@@ -23,6 +23,7 @@ public class SecurityConfig {
         http.cors(Customizer.withDefaults()).csrf(c -> c.disable())
                 .authorizeHttpRequests((a) ->
                         a.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // <-- to jest KLUCZOWE!
+                                .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/public/**").permitAll()
                                 .anyRequest().authenticated());
         http.formLogin(form -> form.defaultSuccessUrl("http://localhost:3000/", true).loginPage("/login").permitAll());
